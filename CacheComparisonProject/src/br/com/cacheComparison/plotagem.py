@@ -7,8 +7,13 @@ from matplotlib.backends.backend_pdf import PdfPages
 # Configurar o estilo dos gráficos
 sns.set(style="whitegrid")
 
-# Definir o caminho completo para o CSV !!!
-csv_path = r"C:\Users\Math7\OneDrive\Área de Trabalho\CacheComparisonProject\cache_results.csv"
+# Definir o caminho relativo para o CSV
+script_dir = os.path.dirname(__file__)  # Diretório do script
+csv_path = os.path.join(script_dir, '..', '..', '..', '..', '..', '..', 'cache_results.csv')  # Caminho relativo ao CSV
+csv_path = os.path.abspath(csv_path)  # Converter para caminho absoluto
+print(f"Caminho absoluto do CSV: {csv_path}")
+
+# Ler o CSV
 df = pd.read_csv(csv_path)
 print(df.head())
 
@@ -18,8 +23,10 @@ metrics = ['Hits', 'Misses', 'Replacements', 'AverageAccessTime', 'TotalReplacem
 # Obter os tipos de carga únicos (Sequencial, Aleatória, Hotspots)
 cargas = df['Carga'].unique()
 
-# Definir o caminho completo para salvar o PDF na pasta desejada
-pdf_path = r"C:\Users\Math7\OneDrive\Área de Trabalho\CacheComparisonProject\src\br\com\cacheComparison\cache_plots.pdf"
+# Definir o caminho relativo para salvar o PDF
+pdf_path = os.path.join(script_dir, 'cache_plots.pdf')  # Caminho relativo para o PDF
+pdf_path = os.path.abspath(pdf_path)  # Converter para caminho absoluto
+print(f"Caminho absoluto do PDF: {pdf_path}")
 
 with PdfPages(pdf_path) as pdf:
     # Para cada padrão de carga, plote cada métrica em função do tamanho do cache, diferenciando LRU e FIFO
